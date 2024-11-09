@@ -1,0 +1,458 @@
+{
+  "command_patterns": {},
+  "user_corrections": [],
+  "successful_commands": [
+    {
+      "timestamp": "2024-11-08T14:40:58.866161",
+      "input": "decreese brightnes",
+      "classification": {
+        "type": "system",
+        "category": "brightness",
+        "command": "decrease brightness",
+        "confidence": 1.0,
+        "context": {
+          "word_similarity": 1.0,
+          "sequence_similarity": 1.0,
+          "context_score": 0.15,
+          "relevant_entities": []
+        },
+        "spelling": {
+          "corrected_text": "decrease brightness",
+          "original_text": "decreese brightnes",
+          "corrections_made": true
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T14:43:26.691278",
+      "input": "open chorme",
+      "classification": {
+        "type": "unclear",
+        "suggestions": [
+          {
+            "category": "app",
+            "command": "open",
+            "confidence": 0.0,
+            "context": {
+              "relevant_entities": [],
+              "pos_pattern": 0.0
+            }
+          }
+        ],
+        "context": {
+          "possible_intents": [
+            "app"
+          ],
+          "key_phrases": [
+            "open",
+            "chrome"
+          ]
+        },
+        "spelling": {
+          "corrected_text": "open chrome",
+          "original_text": "open chorme",
+          "corrections_made": true
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T14:44:08.792091",
+      "input": "open chorme",
+      "classification": {
+        "type": "unclear",
+        "suggestions": [
+          {
+            "category": "app",
+            "command": "open",
+            "confidence": 0.0,
+            "context": {
+              "relevant_entities": [],
+              "pos_pattern": 0.0
+            }
+          }
+        ],
+        "context": {
+          "possible_intents": [
+            "app"
+          ],
+          "key_phrases": [
+            "open",
+            "chrome"
+          ]
+        },
+        "spelling": {
+          "corrected_text": "open chrome",
+          "original_text": "open chorme",
+          "corrections_made": true
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T14:48:47.203749",
+      "input": "increse voulme",
+      "classification": {
+        "type": "system",
+        "category": "volume",
+        "command": "increase volume",
+        "confidence": 0.6521739130434783,
+        "context": {
+          "word_similarity": 0.6521739130434783,
+          "sequence_similarity": 0.6521739130434783,
+          "context_score": 0.15,
+          "relevant_entities": []
+        },
+        "spelling": {
+          "corrected_text": "increase volume increase volume",
+          "original_text": "increse voulme",
+          "corrections_made": true
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T15:02:50.574137",
+      "input": "why does chrome not opening",
+      "classification": {
+        "type": "generation",
+        "confidence": 0.7,
+        "intent": "explanation",
+        "context": {
+          "generation_type": "text",
+          "key_phrases": [
+            "chrome",
+            "opening"
+          ]
+        },
+        "spelling": {
+          "corrected_text": "why does chrome not opening",
+          "original_text": "why does chrome not opening",
+          "corrections_made": false
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T15:03:04.769602",
+      "input": "create new file",
+      "classification": {
+        "type": "system",
+        "category": "file",
+        "command": "new file",
+        "confidence": 0.6956521739130435,
+        "context": {
+          "word_similarity": 0.6956521739130435,
+          "sequence_similarity": 0.6956521739130435,
+          "context_score": 0.0,
+          "relevant_entities": []
+        },
+        "spelling": {
+          "corrected_text": "create new file",
+          "original_text": "create new file",
+          "corrections_made": false
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T19:10:09.730520",
+      "input": "open chrome",
+      "classification": {
+        "type": "unclear",
+        "suggestions": [
+          {
+            "category": "app",
+            "command": "open",
+            "confidence": 0.0,
+            "context": {
+              "relevant_entities": [],
+              "pos_pattern": 0.0
+            }
+          }
+        ],
+        "context": {
+          "possible_intents": [
+            "app"
+          ],
+          "key_phrases": [
+            "open",
+            "chrome"
+          ]
+        },
+        "spelling": {
+          "corrected_text": "open chrome",
+          "original_text": "open chrome",
+          "corrections_made": false
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T19:11:07.504040",
+      "input": "open chrome",
+      "classification": {
+        "type": "unclear",
+        "suggestions": [
+          {
+            "category": "app",
+            "command": "open",
+            "confidence": 0.0,
+            "context": {
+              "relevant_entities": [],
+              "pos_pattern": 0.0
+            }
+          }
+        ],
+        "context": {
+          "possible_intents": [
+            "app"
+          ],
+          "key_phrases": [
+            "open",
+            "chrome"
+          ]
+        },
+        "spelling": {
+          "corrected_text": "open chrome",
+          "original_text": "open chrome",
+          "corrections_made": false
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T19:11:59.215711",
+      "input": "open chrome",
+      "classification": {
+        "type": "system",
+        "category": "app",
+        "command": "open",
+        "confidence": 0.6166666666666667,
+        "context": {
+          "word_similarity": 0.6166666666666667,
+          "sequence_similarity": 0.5333333333333333,
+          "context_score": 0.0,
+          "relevant_entities": []
+        },
+        "spelling": {
+          "corrected_text": "open chrome",
+          "original_text": "open chrome",
+          "corrections_made": false
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T19:19:59.284339",
+      "input": "increase volume",
+      "classification": {
+        "type": "system",
+        "category": "volume",
+        "command": "increase volume",
+        "confidence": 1.0,
+        "context": {
+          "word_similarity": 1.0,
+          "sequence_similarity": 1.0,
+          "context_score": 0.0,
+          "relevant_entities": []
+        },
+        "spelling": {
+          "corrected_text": "increase volume",
+          "original_text": "increase volume",
+          "corrections_made": false
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T19:24:33.861755",
+      "input": "open chrome",
+      "classification": {
+        "type": "system",
+        "category": "app",
+        "command": "open",
+        "confidence": 0.6666666666666666,
+        "context": {
+          "word_similarity": 0.6666666666666666,
+          "sequence_similarity": 0.5333333333333333,
+          "context_score": 0.0,
+          "relevant_entities": []
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T19:29:37.161449",
+      "input": "open instagram",
+      "classification": {
+        "type": "system",
+        "category": "app",
+        "command": "open instagram",
+        "confidence": 0.9,
+        "context": {
+          "word_similarity": 0.9,
+          "sequence_similarity": 0.9,
+          "context_score": 0.9,
+          "relevant_entities": []
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T19:29:48.862176",
+      "input": "open camera",
+      "classification": {
+        "type": "system",
+        "category": "app",
+        "command": "open camera",
+        "confidence": 0.9,
+        "context": {
+          "word_similarity": 0.9,
+          "sequence_similarity": 0.9,
+          "context_score": 0.9,
+          "relevant_entities": []
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T19:29:57.026202",
+      "input": "what can you do?",
+      "classification": {
+        "type": "generation",
+        "confidence": 1.0,
+        "intent": "general",
+        "context": {
+          "generation_type": "text",
+          "key_phrases": []
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T23:34:12.906163",
+      "input": "open chrome",
+      "classification": {
+        "type": "system",
+        "category": "app",
+        "command": "open chrome",
+        "confidence": 0.9,
+        "context": {
+          "word_similarity": 0.9,
+          "sequence_similarity": 0.9,
+          "context_score": 0.9,
+          "relevant_entities": []
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T23:34:47.111865",
+      "input": "minimize cursor",
+      "classification": {
+        "type": "system",
+        "category": "app",
+        "command": "minimize cursor",
+        "confidence": 0.9,
+        "context": {
+          "word_similarity": 0.9,
+          "sequence_similarity": 0.9,
+          "context_score": 0.9,
+          "relevant_entities": []
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T23:35:26.923499",
+      "input": "launch calculator",
+      "classification": {
+        "type": "system",
+        "category": "app",
+        "command": "launch calculator",
+        "confidence": 0.9,
+        "context": {
+          "word_similarity": 0.9,
+          "sequence_similarity": 0.9,
+          "context_score": 0.9,
+          "relevant_entities": []
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-08T23:35:38.287357",
+      "input": "open chrome",
+      "classification": {
+        "type": "system",
+        "category": "app",
+        "command": "open chrome",
+        "confidence": 0.9,
+        "context": {
+          "word_similarity": 0.9,
+          "sequence_similarity": 0.9,
+          "context_score": 0.9,
+          "relevant_entities": []
+        }
+      },
+      "success": true,
+      "correction": null
+    },
+    {
+      "timestamp": "2024-11-09T00:42:31.028069",
+      "input": "what can you do",
+      "classification": {
+        "type": "generation",
+        "confidence": 0.8999999999999999,
+        "intent": "general",
+        "context": {
+          "generation_type": "text",
+          "key_phrases": []
+        }
+      },
+      "success": true,
+      "correction": null
+    }
+  ],
+  "confidence_adjustments": {
+    "decreese brightnes": 0.6,
+    "opn chorm": 0.45,
+    "bad": 0.45,
+    "opn chorme": 0.45,
+    "open chorme": 0.6499999999999999,
+    "opn chrome": 0.45,
+    "increse voulme": 0.6,
+    "why does chrome not opening": 0.6,
+    "create new file": 0.6,
+    "open chrome and sreach for youtube": 0.45,
+    "open chrome": 1.0,
+    "open instagram": 0.55,
+    "open whatsapp": 0.45,
+    "increase volume": 0.6,
+    "open files": 0.45,
+    "open camera": 0.6,
+    "what can you do?": 0.6,
+    "minimize cursor": 0.6,
+    "launch calculator": 0.6,
+    "what can you do": 0.6
+  }
+}

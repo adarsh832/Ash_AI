@@ -1,0 +1,77 @@
+1. App Commands:
+   - "open [app_name]" (e.g., "open chrome", "open notepad")
+   - "close [app_name]"
+   - "minimize all"
+   - "minimize current"
+   - "minimize [app_name]"
+   - "maximize [app_name]"
+
+2. Volume Commands:
+   - "increase volume"
+   - "decrease volume"
+   - "mute"
+   - "unmute"
+   - "max volume"
+   - "min volume"
+
+3. Brightness Commands:
+   - "increase brightness"
+   - "decrease brightness"
+   - "max brightness"
+   - "min brightness"
+   - "screen brighter"
+   - "screen dimmer"
+
+4. Power Commands:
+   - "shutdown" or "power off"
+   - "restart" or "reboot"
+   - "sleep"
+   - "hibernate"
+   - "lock screen"
+   - "log out" or "sign out"
+
+5. Network Commands:
+   - "wifi on" / "wifi off"
+   - "connect wifi"
+   - "disconnect wifi"
+   - "bluetooth on" / "bluetooth off"
+   - "check internet"
+   - "network status"
+   - "show wifi networks"
+
+6. Media Commands:
+   - "play"
+   - "pause"
+   - "stop"
+   - "next"
+   - "previous"
+   - "mute audio"
+   - "unmute audio"
+
+7. File Commands:
+   - "copy"
+   - "paste"
+   - "new folder"
+   - "new file"
+   - "delete"
+   - "rename"
+
+8. Display Commands:
+   - "change resolution"
+   - "rotate screen"
+   - "night mode"
+   - "dark mode"
+   - "light mode"
+
+9. Input Commands:
+   - "enable keyboard"
+   - "disable keyboard"
+   - "enable touchpad"
+   - "disable touchpad"
+
+10. Accessibility Commands:
+    - "enable narrator"
+    - "disable narrator"
+    - "magnifier on"
+    - "magnifier off"
+    - "high contrast"

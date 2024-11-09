@@ -1,0 +1,6 @@
+spacy
+nltk
+pyspellchecker
+SpeechRecognition
+pyttsx3
+pyaudio 

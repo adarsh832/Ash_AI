@@ -1,6 +1,29 @@
-spacy
-nltk
-pyspellchecker
-SpeechRecognition
-pyttsx3
-pyaudio 
+# Core NLP and ML packages
+spacy==3.7.2
+nltk==3.8.1
+pyspellchecker==0.7.2
+psutil==5.9.5
+
+# Voice command packages
+SpeechRecognition==3.10.0
+pyttsx3==2.90
+pyaudio==0.2.13
+
+# System interaction packages
+pywin32==306; platform_system == "Windows"
+python-xlib==0.33; platform_system == "Linux"
+pyobjc-framework-Cocoa==9.2; platform_system == "Darwin"
+
+# Additional utilities
+requests==2.31.0
+python-dotenv==1.0.0
+colorama==0.4.6
+
+# Development tools
+black==23.9.1
+pylint==2.17.5
+pytest==7.4.2
+
+# Install spaCy English language model
+# Run after installing requirements:
+# python -m spacy download en_core_web_sm 

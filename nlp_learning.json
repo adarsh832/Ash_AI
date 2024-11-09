@@ -431,6 +431,24 @@
       },
       "success": true,
       "correction": null
+    },
+    {
+      "timestamp": "2024-11-10T01:28:38.399144",
+      "input": "mute",
+      "classification": {
+        "type": "system",
+        "category": "volume",
+        "command": "mute",
+        "confidence": 1.0,
+        "context": {
+          "word_similarity": 1.0,
+          "sequence_similarity": 1.0,
+          "context_score": 0.0,
+          "relevant_entities": []
+        }
+      },
+      "success": true,
+      "correction": null
     }
   ],
   "confidence_adjustments": {
@@ -453,6 +471,7 @@
     "what can you do?": 0.6,
     "minimize cursor": 0.6,
     "launch calculator": 0.6,
-    "what can you do": 0.6
+    "what can you do": 0.6,
+    "mute": 0.6
   }
 }

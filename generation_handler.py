@@ -3,10 +3,16 @@ import json
 from typing import Optional, Dict, List
 
 class GenerationHandler:
-    def __init__(self, model_name: str = "phi3"):
+    def __init__(self, model_name: str = "mistral"):
+        """
+        Initialize the generation handler with specified model
+        Available models: mistral, llama2, codellama, phi, neural-chat
+        """
         self.model = model_name
         self.context_history = []
         self.max_context_length = 5
+        self.temperature = 0.7
+        self.max_tokens = 500
 
     def generate_response(self, query: str, context: Optional[Dict] = None) -> str:
         """Generate a response for the given query"""
@@ -21,8 +27,14 @@ class GenerationHandler:
             # Format the prompt with context
             prompt = self._format_prompt(query)
 
-            # Call Ollama
-            cmd = ["ollama", "run", self.model, prompt]
+            # Call Ollama with parameters
+            cmd = [
+                "ollama", "run",
+                self.model,
+                "--temperature", str(self.temperature),
+                "--max-tokens", str(self.max_tokens),
+                prompt
+            ]
             result = subprocess.run(cmd, capture_output=True, text=True)
             
             if result.returncode == 0:
@@ -34,8 +46,13 @@ class GenerationHandler:
             return f"Failed to generate response: {str(e)}"
 
     def _format_prompt(self, query: str) -> str:
-        """Format the prompt with context history"""
-        formatted_prompt = "Previous context:\n"
+        """Format the prompt with context history and system instructions"""
+        system_prompt = f"""You are a helpful AI assistant using the {self.model} model.
+        Please provide clear, accurate, and helpful responses.
+        If you're unsure about something, please say so.
+        For code-related questions, include examples and explanations."""
+
+        formatted_prompt = f"System: {system_prompt}\n\nPrevious context:\n"
         
         for item in self.context_history:
             formatted_prompt += f"Q: {item['query']}\n"
@@ -43,8 +60,6 @@ class GenerationHandler:
                 formatted_prompt += f"Context: {json.dumps(item['context'])}\n"
         
         formatted_prompt += f"\nCurrent query: {query}\n"
-        formatted_prompt += "Please provide a helpful response."
-        
         return formatted_prompt
 
     def _format_response(self, response: str) -> str:
@@ -71,7 +86,10 @@ class GenerationHandler:
         return handler(query)
 
     def _handle_code_generation(self, query: str) -> str:
-        """Handle code generation requests"""
+        """Handle code generation requests using CodeLlama model"""
+        original_model = self.model
+        self.model = "codellama"  # Switch to CodeLlama for code generation
+        
         prompt = f"""
         Generate code for the following request:
         {query}
@@ -80,8 +98,13 @@ class GenerationHandler:
         1. Code implementation
         2. Brief explanation
         3. Example usage
+        
+        Use appropriate formatting and comments.
         """
-        return self.generate_response(prompt)
+        
+        response = self.generate_response(prompt)
+        self.model = original_model  # Restore original model
+        return response
 
     def _handle_explanation(self, query: str) -> str:
         """Handle explanation requests"""
@@ -93,6 +116,7 @@ class GenerationHandler:
         1. Simple explanation
         2. Key concepts
         3. Examples if applicable
+        4. Additional resources if relevant
         """
         return self.generate_response(prompt)
 
@@ -102,7 +126,10 @@ class GenerationHandler:
         Create a creative response for:
         {query}
         
-        Be imaginative and engaging.
+        Be imaginative and engaging while maintaining:
+        1. Clear narrative structure
+        2. Engaging language
+        3. Appropriate tone
         """
         return self.generate_response(prompt)
 
@@ -112,10 +139,16 @@ class GenerationHandler:
         Please respond to this query:
         {query}
         
-        Provide a clear and helpful response.
+        Provide a clear, helpful, and accurate response.
+        Include relevant examples or explanations if needed.
         """
         return self.generate_response(prompt)
 
     def clear_context(self):
         """Clear the context history"""
-        self.context_history = [] 
+        self.context_history = []
+
+    def set_model_parameters(self, temperature: float = 0.7, max_tokens: int = 500):
+        """Update model generation parameters"""
+        self.temperature = max(0.0, min(1.0, temperature))  # Clamp between 0 and 1
+        self.max_tokens = max(1, max_tokens)  # Ensure positive value

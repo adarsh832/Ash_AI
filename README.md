@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI Voice Command System
 
 An advanced AI-powered voice command system that can control your computer through natural language commands and respond to questions using LLM (Language Learning Models).
@@ -47,7 +48,7 @@ An advanced AI-powered voice command system that can control your computer throu
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/ai-voice-command.git
+   git clone https://github.com/adarsh832/AI.git
    cd ai-voice-command
    ```
 
@@ -182,3 +183,12 @@ ai-voice-command/
    - LLM connection
    - Response generation
    - Context management
+=======
+# AI
+THis AI is made by me using cursor 
+
+
+<b> Run Example.py for text based commads and For voice commands run voice_commands.py</b>
+
+<b> System Requirements is not complete </b>
+>>>>>>> 6d7a27d674a729c68eec1f468be45241063a037c

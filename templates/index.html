@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ash AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="ai-assistant">
+            <div class="ai-circle" id="ai-circle">
+                <div class="inner-circle"></div>
+            </div>
+            <div class="status-text" id="status-text">Say "Hey Ash" or "Ash" to start</div>
+        </div>
+        
+        <div class="voice-waves" id="voice-waves">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+    </div>
+
+    <script>
+        const aiCircle = document.getElementById('ai-circle');
+        const statusText = document.getElementById('status-text');
+        const voiceWaves = document.getElementById('voice-waves');
+        let isListening = false;
+        let isProcessing = false;
+        let recognition;
+        let commandRecognition;
+
+        // Initialize wake word detection
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            commandRecognition = new webkitSpeechRecognition();
+            commandRecognition.continuous = false;
+            commandRecognition.interimResults = false;
+
+            recognition.onresult = function(event) {
+                const transcript = Array.from(event.results)
+                    .map(result => result[0].transcript.toLowerCase())
+                    .join('');
+
+                if (transcript.includes('hey ash') || transcript.includes('ash')) {
+                    startListeningForCommand();
+                }
+            };
+
+            recognition.onend = function() {
+                if (!isProcessing) {
+                    recognition.start();
+                }
+            };
+
+            commandRecognition.onresult = function(event) {
+                const command = event.results[0][0].transcript;
+                processCommand(command);
+            };
+
+            commandRecognition.onend = function() {
+                if (!isProcessing) {
+                    resetToWakeWordMode();
+                }
+            };
+
+            // Start listening for wake word
+            recognition.start();
+        }
+
+        function startListeningForCommand() {
+            isProcessing = true;
+            recognition.stop();
+            
+            aiCircle.classList.add('active');
+            voiceWaves.classList.add('active');
+            statusText.textContent = "Listening...";
+            
+            setTimeout(() => {
+                commandRecognition.start();
+            }, 500);
+        }
+
+        function processCommand(command) {
+            isProcessing = true;
+            aiCircle.classList.add('processing');
+            voiceWaves.classList.remove('active');
+            statusText.textContent = "Processing...";
+
+            fetch('/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ command: command })
+            })
+            .then(response => response.json())
+            .then(data => {
+                statusText.textContent = data.result;
+                setTimeout(resetToWakeWordMode, 5000);
+            })
+            .catch(error => {
+                statusText.textContent = "Sorry, there was an error processing your command.";
+                setTimeout(resetToWakeWordMode, 3000);
+            });
+        }
+
+        function resetToWakeWordMode() {
+            isProcessing = false;
+            aiCircle.classList.remove('active', 'processing');
+            voiceWaves.classList.remove('active');
+            statusText.textContent = 'Say "Hey Ash" or "Ash" to start';
+            recognition.start();
+        }
+    </script>
+</body>
+</html> 

@@ -132,4 +132,55 @@ body {
     50% {
         height: 60px;
     }
+}
+
+.system-info {
+    display: flex;
+    gap: 20px;
+    font-size: 1rem;
+    color: #007bff;
+    margin-top: 20px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ai-circle.startup {
+    animation: startup 3s ease-in-out;
+}
+
+.ai-circle.speaking {
+    animation: speak 1.5s infinite;
+}
+
+@keyframes startup {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes speak {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.7);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    }
 } 

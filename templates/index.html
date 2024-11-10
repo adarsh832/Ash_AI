@@ -11,7 +11,8 @@
             <div class="ai-circle" id="ai-circle">
                 <div class="inner-circle"></div>
             </div>
-            <div class="status-text" id="status-text">Say "Hey Ash" or "Ash" to start</div>
+            <div class="status-text" id="status-text">Initializing...</div>
+            <div class="system-info" id="system-info"></div>
         </div>
         
         <div class="voice-waves" id="voice-waves">
@@ -25,71 +26,151 @@
     <script>
         const aiCircle = document.getElementById('ai-circle');
         const statusText = document.getElementById('status-text');
+        const systemInfo = document.getElementById('system-info');
         const voiceWaves = document.getElementById('voice-waves');
         let isListening = false;
         let isProcessing = false;
         let recognition;
         let commandRecognition;
+        let speechSynthesis = window.speechSynthesis;
+        let aiVoice = null;
 
-        // Initialize wake word detection
-        if ('webkitSpeechRecognition' in window) {
-            recognition = new webkitSpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = true;
-
-            commandRecognition = new webkitSpeechRecognition();
-            commandRecognition.continuous = false;
-            commandRecognition.interimResults = false;
-
-            recognition.onresult = function(event) {
-                const transcript = Array.from(event.results)
-                    .map(result => result[0].transcript.toLowerCase())
-                    .join('');
-
-                if (transcript.includes('hey ash') || transcript.includes('ash')) {
-                    startListeningForCommand();
-                }
-            };
-
-            recognition.onend = function() {
-                if (!isProcessing) {
-                    recognition.start();
-                }
-            };
-
-            commandRecognition.onresult = function(event) {
-                const command = event.results[0][0].transcript;
-                processCommand(command);
-            };
-
-            commandRecognition.onend = function() {
-                if (!isProcessing) {
-                    resetToWakeWordMode();
-                }
-            };
-
-            // Start listening for wake word
-            recognition.start();
+        // Modified Initialize voice function
+        function initializeVoice() {
+            return new Promise((resolve) => {
+                const checkVoices = () => {
+                    const voices = window.speechSynthesis.getVoices();
+                    if (voices.length > 0) {
+                        aiVoice = voices.find(voice => 
+                            voice.lang === 'en-US' && (voice.name.includes('Female') || voice.name.includes('female'))
+                        ) || voices.find(voice => 
+                            voice.lang === 'en-US'
+                        ) || voices[0];
+                        console.log('Voice initialized:', aiVoice.name);
+                        resolve();
+                    } else {
+                        setTimeout(checkVoices, 100);
+                    }
+                };
+                checkVoices();
+            });
         }
 
-        function startListeningForCommand() {
-            isProcessing = true;
-            recognition.stop();
-            
-            aiCircle.classList.add('active');
-            voiceWaves.classList.add('active');
-            statusText.textContent = "Listening...";
-            
-            setTimeout(() => {
-                commandRecognition.start();
-            }, 500);
+        // Modified speak function
+        function speak(text) {
+            return new Promise((resolve) => {
+                if (!text) {
+                    resolve();
+                    return;
+                }
+
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                if (aiVoice) {
+                    utterance.voice = aiVoice;
+                }
+                
+                utterance.lang = 'en-US';
+                utterance.pitch = 1.1;
+                utterance.rate = 1;
+                utterance.volume = 1;
+                
+                utterance.onstart = () => {
+                    console.log('Speaking:', text);
+                    aiCircle.classList.add('speaking');
+                    voiceWaves.classList.add('active');
+                    statusText.textContent = text;
+                };
+                
+                utterance.onend = () => {
+                    console.log('Finished speaking:', text);
+                    aiCircle.classList.remove('speaking');
+                    voiceWaves.classList.remove('active');
+                    resolve();
+                };
+
+                utterance.onerror = (event) => {
+                    console.error('Speech error:', event);
+                    aiCircle.classList.remove('speaking');
+                    voiceWaves.classList.remove('active');
+                    resolve();
+                };
+
+                // Workaround for Chrome speech synthesis issues
+                setTimeout(() => {
+                    window.speechSynthesis.speak(utterance);
+                }, 100);
+            });
         }
 
+        // Add this function for voice recognition initialization
+        function initializeVoiceRecognition() {
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+
+                commandRecognition = new webkitSpeechRecognition();
+                commandRecognition.continuous = false;
+                commandRecognition.interimResults = false;
+
+                recognition.onstart = () => {
+                    console.log('Wake word detection started');
+                    isListening = true;
+                };
+
+                recognition.onresult = function(event) {
+                    const transcript = Array.from(event.results)
+                        .map(result => result[0].transcript.toLowerCase())
+                        .join('');
+
+                    if (transcript.includes('hey ash') || transcript.includes('ash')) {
+                        startListeningForCommand();
+                    }
+                };
+
+                recognition.onend = function() {
+                    if (!isProcessing) {
+                        recognition.start();
+                    }
+                };
+
+                commandRecognition.onresult = function(event) {
+                    const command = event.results[0][0].transcript;
+                    processCommand(command);
+                };
+
+                commandRecognition.onend = function() {
+                    if (!isProcessing) {
+                        resetToWakeWordMode();
+                    }
+                };
+
+                // Start listening for wake word
+                recognition.start();
+            } else {
+                console.error('Speech recognition not supported');
+                statusText.textContent = 'Speech recognition not supported in this browser';
+            }
+        }
+
+        // Modified processCommand function with better state management
         function processCommand(command) {
             isProcessing = true;
             aiCircle.classList.add('processing');
             voiceWaves.classList.remove('active');
             statusText.textContent = "Processing...";
+
+            // Stop both recognitions during processing
+            if (recognition) {
+                recognition.stop();
+            }
+            if (commandRecognition) {
+                commandRecognition.stop();
+            }
 
             fetch('/process', {
                 method: 'POST',
@@ -99,23 +180,157 @@
                 body: JSON.stringify({ command: command })
             })
             .then(response => response.json())
-            .then(data => {
+            .then(async data => {
                 statusText.textContent = data.result;
-                setTimeout(resetToWakeWordMode, 5000);
+                await speak(data.result);
+                // Wait a bit before resetting
+                await new Promise(resolve => setTimeout(resolve, 500));
+                resetToWakeWordMode();
             })
-            .catch(error => {
-                statusText.textContent = "Sorry, there was an error processing your command.";
-                setTimeout(resetToWakeWordMode, 3000);
+            .catch(async error => {
+                console.error('Command processing error:', error);
+                const errorMessage = "Sorry, there was an error processing your command.";
+                statusText.textContent = errorMessage;
+                await speak(errorMessage);
+                // Wait a bit before resetting
+                await new Promise(resolve => setTimeout(resolve, 500));
+                resetToWakeWordMode();
             });
         }
 
+        // Modified resetToWakeWordMode function with better state management
         function resetToWakeWordMode() {
+            // First stop all ongoing recognitions
+            if (recognition) {
+                try {
+                    recognition.stop();
+                } catch (e) {
+                    console.error('Error stopping recognition:', e);
+                }
+            }
+            if (commandRecognition) {
+                try {
+                    commandRecognition.stop();
+                } catch (e) {
+                    console.error('Error stopping command recognition:', e);
+                }
+            }
+
+            // Reset states
             isProcessing = false;
-            aiCircle.classList.remove('active', 'processing');
+            isListening = false;
+            
+            // Reset visual elements
+            aiCircle.classList.remove('active', 'processing', 'speaking');
             voiceWaves.classList.remove('active');
             statusText.textContent = 'Say "Hey Ash" or "Ash" to start';
-            recognition.start();
+            
+            // Restart wake word detection after a longer delay
+            setTimeout(() => {
+                try {
+                    if (!isProcessing && !isListening) {  // Double check states
+                        recognition.start();
+                        isListening = true;
+                        console.log('Wake word detection restarted');
+                    }
+                } catch (e) {
+                    console.error('Error restarting recognition:', e);
+                    statusText.textContent = 'Error restarting voice recognition. Please refresh the page.';
+                }
+            }, 1000);  // Increased delay
         }
+
+        // Modified startup sequence to handle user interaction requirement
+        async function startupSequence() {
+            try {
+                console.log('Starting initialization...');
+                
+                // Initialize voice first
+                await initializeVoice();
+                
+                aiCircle.classList.add('startup');
+                
+                // Fetch system info
+                const response = await fetch('/system_info');
+                const systemData = await response.json();
+                
+                // Display system info
+                systemInfo.innerHTML = `
+                    <div class="info-item"><i class="fas fa-microchip"></i> ${systemData.cpu}</div>
+                    <div class="info-item"><i class="fas fa-memory"></i> ${systemData.memory}</div>
+                    <div class="info-item"><i class="fas fa-clock"></i> ${systemData.time}</div>
+                `;
+
+                // Add a click to start button
+                statusText.textContent = 'Click anywhere to start Ash AI';
+                document.body.style.cursor = 'pointer';
+                
+                // Wait for user interaction
+                await new Promise(resolve => {
+                    document.body.onclick = () => {
+                        document.body.onclick = null;
+                        document.body.style.cursor = 'default';
+                        resolve();
+                    };
+                });
+
+                // Now start the voice sequence after user interaction
+                const startupMessages = [
+                    "Initializing Ash AI Assistant",
+                    "All systems online",
+                    "Voice recognition activated",
+                    "I'm ready to help. You can activate me by saying Hey Ash or just Ash"
+                ];
+
+                for (const message of startupMessages) {
+                    await speak(message);
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+                
+                aiCircle.classList.remove('startup');
+                statusText.textContent = 'Say "Hey Ash" or "Ash" to start';
+                
+                // Start voice recognition
+                initializeVoiceRecognition();
+                
+            } catch (error) {
+                console.error('Startup sequence error:', error);
+                statusText.textContent = 'Error during initialization. Please refresh the page.';
+            }
+        }
+
+        // Modified startListeningForCommand function with better timing
+        async function startListeningForCommand() {
+            // Stop wake word recognition
+            if (recognition) {
+                recognition.stop();
+            }
+            
+            isProcessing = true;
+            aiCircle.classList.add('active');
+            voiceWaves.classList.add('active');
+            
+            await speak("Yes?");
+            statusText.textContent = "Listening...";
+            
+            // Longer delay before starting command recognition
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            try {
+                if (isProcessing) {  // Check if we're still in processing state
+                    commandRecognition.start();
+                }
+            } catch (e) {
+                console.error('Error starting command recognition:', e);
+                resetToWakeWordMode();
+            }
+        }
+
+        // Start the system when page loads
+        window.addEventListener('load', () => {
+            console.log('Page loaded, starting initialization...');
+            startupSequence();
+        });
     </script>
 </body>
 </html> 

@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify
 from nlp_processor import NLPProcessor
 from system_commands import SystemCommandExecutor
 from generation_handler import GenerationHandler
+import psutil
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -46,6 +48,18 @@ def process_command():
         response['suggestions'] = classification['suggestions']
     
     return jsonify(response)
+
+@app.route('/system_info')
+def system_info():
+    cpu_percent = psutil.cpu_percent()
+    memory = psutil.virtual_memory()
+    current_time = datetime.now().strftime("%H:%M:%S")
+    
+    return jsonify({
+        'cpu': f"CPU Usage: {cpu_percent}%",
+        'memory': f"Memory: {memory.percent}%",
+        'time': f"Time: {current_time}"
+    })
 
 if __name__ == '__main__':
     app.run(debug=True) 

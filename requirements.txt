@@ -1,28 +1,28 @@
 # Core NLP and ML packages
-spacy
-nltk
-pyspellchecker
-psutil
+spacy==3.7.6
+nltk==3.9.1
+pyspellchecker==0.8.1
+psutil==6.0.0
 
 # Voice command packages
-SpeechRecognition
-pyttsx3
-pyaudio
+SpeechRecognition==3.10.4
+pyttsx3==2.97
+pyaudio==0.2.14
 
 # System interaction packages
-pywin32; platform_system == "Windows"
-python-xlib; platform_system == "Linux"
-pyobjc-framework-Cocoa; platform_system == "Darwin"
+pywin32==306; platform_system == "Windows"
+python-xlib==0.17.4; platform_system == "Linux"
+pyobjc-framework-Cocoa==0.1.0; platform_system == "Darwin"
 
 # Additional utilities
-requests
-python-dotenv
-colorama
+requests==2.31.0
+python-dotenv==1.0.1
+colorama==0.4.6
 
 # Development tools
-black
-pylint
-pytest
+black==24.2.0
+pylint==2.17.1
+pytest==7.4.3
 
 # Install spaCy English language model
 # Run after installing requirements:

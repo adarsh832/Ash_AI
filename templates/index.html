@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ash AI Assistant</title>
+    <title>Friday AI Assistant</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -21,6 +21,16 @@
             <div class="wave"></div>
             <div class="wave"></div>
         </div>
+
+        <div class="chat-container" id="chat-container">
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -35,17 +45,21 @@
         let speechSynthesis = window.speechSynthesis;
         let aiVoice = null;
 
-        // Modified Initialize voice function
+        // Modified Initialize voice function to prioritize female voices
         function initializeVoice() {
             return new Promise((resolve) => {
                 const checkVoices = () => {
                     const voices = window.speechSynthesis.getVoices();
                     if (voices.length > 0) {
+                        // Priority list for female voices that sound more like FRIDAY
                         aiVoice = voices.find(voice => 
-                            voice.lang === 'en-US' && (voice.name.includes('Female') || voice.name.includes('female'))
-                        ) || voices.find(voice => 
-                            voice.lang === 'en-US'
+                            voice.name.includes('Microsoft Zira') ||      // Windows female voice
+                            voice.name.includes('Google UK Female') ||    // British female voice
+                            voice.name.includes('Samantha') ||           // macOS female voice
+                            (voice.lang === 'en-GB' && voice.name.includes('Female')) ||
+                            (voice.lang === 'en-US' && voice.name.includes('Female'))
                         ) || voices[0];
+                        
                         console.log('Voice initialized:', aiVoice.name);
                         resolve();
                     } else {
@@ -56,7 +70,7 @@
             });
         }
 
-        // Modified speak function
+        // Modified speak function for FRIDAY-like voice
         function speak(text) {
             return new Promise((resolve) => {
                 if (!text) {
@@ -73,10 +87,11 @@
                     utterance.voice = aiVoice;
                 }
                 
-                utterance.lang = 'en-US';
-                utterance.pitch = 1.1;
-                utterance.rate = 1;
-                utterance.volume = 1;
+                // Voice settings tuned for FRIDAY-like speech
+                utterance.lang = 'en-GB';     // British accent like FRIDAY
+                utterance.pitch = 1.1;        // Slightly higher for female voice
+                utterance.rate = 0.95;        // Slightly slower for clarity
+                utterance.volume = 1.0;       // Full volume
                 
                 utterance.onstart = () => {
                     console.log('Speaking:', text);
@@ -127,7 +142,7 @@
                         .map(result => result[0].transcript.toLowerCase())
                         .join('');
 
-                    if (transcript.includes('hey ash') || transcript.includes('ash')) {
+                    if (transcript.includes('hey friday') || transcript.includes('friday')) {
                         startListeningForCommand();
                     }
                 };
@@ -223,7 +238,7 @@
             // Reset visual elements
             aiCircle.classList.remove('active', 'processing', 'speaking');
             voiceWaves.classList.remove('active');
-            statusText.textContent = 'Say "Hey Ash" or "Ash" to start';
+            statusText.textContent = 'Say "Hey Friday" or "Friday" to start';
             
             // Restart wake word detection after a longer delay
             setTimeout(() => {
@@ -276,10 +291,10 @@
 
                 // Now start the voice sequence after user interaction
                 const startupMessages = [
-                    "Initializing Ash AI Assistant",
+                    "Initializing Friday AI Assistant",
                     "All systems online",
                     "Voice recognition activated",
-                    "I'm ready to help. You can activate me by saying Hey Ash or just Ash"
+                    "I'm ready to help. You can activate me by saying Hey Friday or just Friday"
                 ];
 
                 for (const message of startupMessages) {
@@ -288,7 +303,7 @@
                 }
                 
                 aiCircle.classList.remove('startup');
-                statusText.textContent = 'Say "Hey Ash" or "Ash" to start';
+                statusText.textContent = 'Say "Hey Friday" or "Friday" to start';
                 
                 // Start voice recognition
                 initializeVoiceRecognition();
@@ -330,6 +345,61 @@
         window.addEventListener('load', () => {
             console.log('Page loaded, starting initialization...');
             startupSequence();
+        });
+
+        // Chat handling functions
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chat-messages');
+
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${isUser ? 'user-message' : 'assistant-message'}`;
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function handleChatMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            chatInput.value = '';
+            addMessage(message, true);
+            aiCircle.classList.add('processing');
+            
+            try {
+                const response = await fetch('/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ command: message })
+                });
+                
+                const data = await response.json();
+                addMessage(data.result);
+                await speak(data.result);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('Sorry, there was an error processing your message.');
+            } finally {
+                aiCircle.classList.remove('processing');
+            }
+        }
+
+        // Add chat event listeners
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && chatInput.value.trim()) {
+                handleChatMessage();
+            }
+        });
+
+        sendButton.addEventListener('click', () => {
+            if (chatInput.value.trim()) {
+                handleChatMessage();
+            }
         });
     </script>
 </body>

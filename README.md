@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# AI Voice Command System
+# Friday - AI Voice Command System
 
 An advanced AI-powered voice command system that can control your computer through natural language commands and respond to questions using LLM (Language Learning Models).
 
@@ -12,6 +11,28 @@ An advanced AI-powered voice command system that can control your computer throu
 - 📚 Question Answering
 - 🧠 Learning Capabilities
 - 🔄 Context Awareness
+
+## Interface Features
+
+1. **Command Line Interface**
+   - Text-based input and output
+   - Command history
+   - Auto-completion support
+   - Color-coded responses
+
+2. **Voice Interface**
+   - Wake word detection ("Hey Friday")
+   - Real-time voice recognition
+   - Natural speech responses
+   - Background noise filtering
+   - Multi-language support
+
+3. **GUI Interface**
+   - Clean, modern design
+   - Command visualization
+   - System status indicators
+   - Settings configuration panel
+   - Command history viewer
 
 ## System Commands Available
 
@@ -183,7 +204,6 @@ ai-voice-command/
    - LLM connection
    - Response generation
    - Context management
-=======
 # AI
 THis AI is made by me using cursor 
 
@@ -191,4 +211,3 @@ THis AI is made by me using cursor
 <b> Run Example.py for text based commads and For voice commands run voice_commands.py</b>
 
 <b> System Requirements is not complete </b>
->>>>>>> 6d7a27d674a729c68eec1f468be45241063a037c

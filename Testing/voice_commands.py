@@ -1,7 +1,7 @@
 import speech_recognition as sr
-from nlp_processor import NLPProcessor
-from system_commands import SystemCommandExecutor
-from generation_handler import GenerationHandler
+from Processing.nlp_processor import NLPProcessor
+from Processing.system_commands import SystemCommandExecutor
+from Processing.generation_handler import GenerationHandler
 import pyttsx3
 import threading
 

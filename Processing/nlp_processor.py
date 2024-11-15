@@ -6,7 +6,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import re
 from functools import lru_cache
-from ollama_generator import OllamaGenerator
+from Processing.ollama_generator import OllamaGenerator
 import json
 from spellchecker import SpellChecker
 import os

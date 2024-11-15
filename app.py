@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
-from nlp_processor import NLPProcessor
-from system_commands import SystemCommandExecutor
-from generation_handler import GenerationHandler
+from Processing.nlp_processor import NLPProcessor
+from Processing.system_commands import SystemCommandExecutor
+from Processing.generation_handler import GenerationHandler
 import psutil
 from datetime import datetime
 

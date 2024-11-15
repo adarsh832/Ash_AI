@@ -1,4 +1,5 @@
 # Friday - AI Voice Command System
+# Run this app with Gui Interface to use it as a voice assistant (app.py)
 
 An advanced AI-powered voice command system that can control your computer through natural language commands and respond to questions using LLM (Language Learning Models).
 
@@ -100,6 +101,10 @@ An advanced AI-powered voice command system that can control your computer throu
 2. **Run with Voice Commands**
    ```bash
    python voice_commands.py
+   ```
+3. **Run with GUI**
+   ```bash
+   python app.py
    ```
 
 3. **Voice Command Examples**
@@ -204,10 +209,3 @@ ai-voice-command/
    - LLM connection
    - Response generation
    - Context management
-# AI
-THis AI is made by me using cursor 
-
-
-<b> Run Example.py for text based commads and For voice commands run voice_commands.py</b>
-
-<b> System Requirements is not complete </b>

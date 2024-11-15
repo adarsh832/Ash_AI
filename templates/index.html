@@ -10,6 +10,13 @@
         <div class="ai-assistant">
             <div class="ai-circle" id="ai-circle">
                 <div class="inner-circle"></div>
+                <div class="audio-visualizer">
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                    <div class="audio-bar"></div>
+                </div>
             </div>
             <div class="status-text" id="status-text">Initializing...</div>
             <div class="system-info" id="system-info"></div>
@@ -78,43 +85,61 @@
                     return;
                 }
 
-                // Cancel any ongoing speech
                 window.speechSynthesis.cancel();
-
                 const utterance = new SpeechSynthesisUtterance(text);
                 
                 if (aiVoice) {
                     utterance.voice = aiVoice;
                 }
                 
-                // Voice settings tuned for FRIDAY-like speech
-                utterance.lang = 'en-GB';     // British accent like FRIDAY
-                utterance.pitch = 1.1;        // Slightly higher for female voice
-                utterance.rate = 0.95;        // Slightly slower for clarity
-                utterance.volume = 1.0;       // Full volume
+                utterance.lang = 'en-GB';
+                utterance.pitch = 1.1;
+                utterance.rate = 0.95;
+                utterance.volume = 1.0;
+
+                // Create audio context for visualization
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioContext.createAnalyser();
+                analyser.fftSize = 32;
+                
+                const audioBars = document.querySelectorAll('.audio-bar');
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
                 
                 utterance.onstart = () => {
-                    console.log('Speaking:', text);
                     aiCircle.classList.add('speaking');
-                    voiceWaves.classList.add('active');
                     statusText.textContent = text;
+                    
+                    // Start visualization
+                    function updateBars() {
+                        if (aiCircle.classList.contains('speaking')) {
+                            analyser.getByteFrequencyData(dataArray);
+                            audioBars.forEach((bar, index) => {
+                                const value = dataArray[index];
+                                const height = value ? Math.max(30, value / 255 * 100) : 30;
+                                bar.style.height = `${height}%`;
+                            });
+                            requestAnimationFrame(updateBars);
+                        }
+                    }
+                    updateBars();
                 };
                 
                 utterance.onend = () => {
-                    console.log('Finished speaking:', text);
                     aiCircle.classList.remove('speaking');
-                    voiceWaves.classList.remove('active');
+                    audioBars.forEach(bar => {
+                        bar.style.height = '30%';
+                    });
                     resolve();
                 };
 
-                utterance.onerror = (event) => {
-                    console.error('Speech error:', event);
+                utterance.onerror = () => {
                     aiCircle.classList.remove('speaking');
-                    voiceWaves.classList.remove('active');
+                    audioBars.forEach(bar => {
+                        bar.style.height = '30%';
+                    });
                     resolve();
                 };
 
-                // Workaround for Chrome speech synthesis issues
                 setTimeout(() => {
                     window.speechSynthesis.speak(utterance);
                 }, 100);

@@ -3,6 +3,8 @@
 
 An advanced AI-powered voice command system that can control your computer through natural language commands and respond to questions using LLM (Language Learning Models).
 
+## Most important to download is Ollama and install llama3.2 model or it will not generate response
+
 ## Features
 
 - 🎙️ Voice Command Recognition

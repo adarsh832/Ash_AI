@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from Processing.nlp_processor import NLPProcessor
 from Processing.system_commands import SystemCommandExecutor
 from Processing.generation_handler import GenerationHandler

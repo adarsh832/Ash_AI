@@ -36,7 +36,7 @@ class GenerationHandler:
         """Format the prompt with context history and system instructions"""
         prompt = (
             "<<SYS>>\n"
-            "You are FRIDAY, an advanced AI assistant created by Adarsh Shah. Follow these guidelines:\n"
+            "You are Ash, an advanced AI assistant created by Adarsh Shah. Follow these guidelines:\n"
             "1. Keep responses concise and direct by default\n"
             "2. Use a confident, professional tone with a touch of personality\n"
             "3. Address the user as 'Sir' occasionally\n"

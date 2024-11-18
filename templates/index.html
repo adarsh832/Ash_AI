@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Friday AI Assistant</title>
+    <title>Ash AI Assistant</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -58,7 +58,7 @@
                 const checkVoices = () => {
                     const voices = window.speechSynthesis.getVoices();
                     if (voices.length > 0) {
-                        // Priority list for female voices that sound more like FRIDAY
+                        // Priority list for female voices that sound more like Ash
                         aiVoice = voices.find(voice => 
                             voice.name.includes('Microsoft Zira') ||      // Windows female voice
                             voice.name.includes('Google UK Female') ||    // British female voice
@@ -77,7 +77,7 @@
             });
         }
 
-        // Modified speak function for FRIDAY-like voice
+        // Modified speak function for Ash-like voice
         function speak(text) {
             return new Promise((resolve) => {
                 if (!text) {
@@ -167,7 +167,7 @@
                         .map(result => result[0].transcript.toLowerCase())
                         .join('');
 
-                    if (transcript.includes('hey friday') || transcript.includes('friday')) {
+                    if (transcript.includes('hey Ash') || transcript.includes('Ash')) {
                         startListeningForCommand();
                     }
                 };
@@ -263,7 +263,7 @@
             // Reset visual elements
             aiCircle.classList.remove('active', 'processing', 'speaking');
             voiceWaves.classList.remove('active');
-            statusText.textContent = 'Say "Hey Friday" or "Friday" to start';
+            statusText.textContent = 'Say "Hey Ash" or "Ash" to start';
             
             // Restart wake word detection after a longer delay
             setTimeout(() => {
@@ -316,10 +316,10 @@
 
                 // Now start the voice sequence after user interaction
                 const startupMessages = [
-                    "Initializing Friday AI Assistant",
+                    "Initializing Ash AI Assistant",
                     "All systems online",
                     "Voice recognition activated",
-                    "activate me by saying Hey Friday or just Friday"
+                    "activate me by saying Hey Ash or just Ash"
                 ];
 
                 for (const message of startupMessages) {
@@ -328,7 +328,7 @@
                 }
                 
                 aiCircle.classList.remove('startup');
-                statusText.textContent = 'Say "Hey Friday" or "Friday" to start';
+                statusText.textContent = 'Say "Hey Ash" or "Ash" to start';
                 
                 // Start voice recognition
                 initializeVoiceRecognition();

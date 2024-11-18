@@ -1,4 +1,4 @@
-# Friday - AI Voice Command System
+# Ash - AI Voice Command System
 # Run this app with Gui Interface to use it as a voice assistant (app.py)
 
 An advanced AI-powered voice command system that can control your computer through natural language commands and respond to questions using LLM (Language Learning Models).
@@ -24,7 +24,7 @@ An advanced AI-powered voice command system that can control your computer throu
    - Color-coded responses
 
 2. **Voice Interface**
-   - Wake word detection ("Hey Friday")
+   - Wake word detection ("Hey Ash")
    - Real-time voice recognition
    - Natural speech responses
    - Background noise filtering

@@ -1,5 +1,6 @@
 # Ash - AI Voice Command System
 # Run this app with Gui Interface to use it as a voice assistant (app.py)
+# If you want to change name of the wake word, just find&replace "Ash" in the code
 
 An advanced AI-powered voice command system that can control your computer through natural language commands and respond to questions using LLM (Language Learning Models).
 

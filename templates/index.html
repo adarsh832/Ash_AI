@@ -8,15 +8,14 @@
 <body>
     <div class="container">
         <div class="ai-assistant">
-            <div class="ai-circle" id="ai-circle">
-                <div class="inner-circle"></div>
-                <div class="audio-visualizer">
-                    <div class="audio-bar"></div>
-                    <div class="audio-bar"></div>
-                    <div class="audio-bar"></div>
-                    <div class="audio-bar"></div>
-                    <div class="audio-bar"></div>
-                </div>
+            <div class="spline-container">
+                <iframe 
+                    src='https://my.spline.design/voiceinteractionanimation-0c3e96bad00c2fdf9666dda34fc58683/' 
+                    frameborder='0' 
+                    width='100%' 
+                    height='100%'
+                    id="ai-spline"
+                ></iframe>
             </div>
             <div class="status-text" id="status-text">Initializing...</div>
             <div class="system-info" id="system-info"></div>
@@ -41,7 +40,7 @@
     </div>
 
     <script>
-        const aiCircle = document.getElementById('ai-circle');
+        const aiSpline = document.getElementById('ai-spline');
         const statusText = document.getElementById('status-text');
         const systemInfo = document.getElementById('system-info');
         const voiceWaves = document.getElementById('voice-waves');
@@ -106,12 +105,12 @@
                 const dataArray = new Uint8Array(analyser.frequencyBinCount);
                 
                 utterance.onstart = () => {
-                    aiCircle.classList.add('speaking');
+                    aiSpline.classList.add('speaking');
                     statusText.textContent = text;
                     
                     // Start visualization
                     function updateBars() {
-                        if (aiCircle.classList.contains('speaking')) {
+                        if (aiSpline.classList.contains('speaking')) {
                             analyser.getByteFrequencyData(dataArray);
                             audioBars.forEach((bar, index) => {
                                 const value = dataArray[index];
@@ -125,7 +124,7 @@
                 };
                 
                 utterance.onend = () => {
-                    aiCircle.classList.remove('speaking');
+                    aiSpline.classList.remove('speaking');
                     audioBars.forEach(bar => {
                         bar.style.height = '30%';
                     });
@@ -133,7 +132,7 @@
                 };
 
                 utterance.onerror = () => {
-                    aiCircle.classList.remove('speaking');
+                    aiSpline.classList.remove('speaking');
                     audioBars.forEach(bar => {
                         bar.style.height = '30%';
                     });
@@ -200,7 +199,7 @@
         // Modified processCommand function with better state management
         function processCommand(command) {
             isProcessing = true;
-            aiCircle.classList.add('processing');
+            aiSpline.classList.add('processing');
             voiceWaves.classList.remove('active');
             statusText.textContent = "Processing...";
 
@@ -261,7 +260,7 @@
             isListening = false;
             
             // Reset visual elements
-            aiCircle.classList.remove('active', 'processing', 'speaking');
+            aiSpline.classList.remove('active', 'processing', 'speaking');
             voiceWaves.classList.remove('active');
             statusText.textContent = 'Say "Hey Ash" or "Ash" to start';
             
@@ -288,7 +287,7 @@
                 // Initialize voice first
                 await initializeVoice();
                 
-                aiCircle.classList.add('startup');
+                aiSpline.classList.add('startup');
                 
                 // Fetch system info
                 const response = await fetch('/system_info');
@@ -327,7 +326,7 @@
                     await new Promise(resolve => setTimeout(resolve, 500));
                 }
                 
-                aiCircle.classList.remove('startup');
+                aiSpline.classList.remove('startup');
                 statusText.textContent = 'Say "Hey Ash" or "Ash" to start';
                 
                 // Start voice recognition
@@ -347,7 +346,7 @@
             }
             
             isProcessing = true;
-            aiCircle.classList.add('active');
+            aiSpline.classList.add('active');
             voiceWaves.classList.add('active');
             
             await speak("Yes?");
@@ -391,7 +390,7 @@
             
             chatInput.value = '';
             addMessage(message, true);
-            aiCircle.classList.add('processing');
+            aiSpline.classList.add('processing');
             
             try {
                 const response = await fetch('/process', {
@@ -410,7 +409,7 @@
                 console.error('Error:', error);
                 addMessage('Sorry, there was an error processing your message.');
             } finally {
-                aiCircle.classList.remove('processing');
+                aiSpline.classList.remove('processing');
             }
         }
 
